@@ -1,0 +1,91 @@
+[
+    {
+        "title": "Header 1",
+        "horizontal": false,
+        "data": [
+            {
+                "key": "1",
+                "text": "Hydrabad"
+            },
+            {
+                "key": "2",
+                "text": "Bangolre"
+            },
+
+            {
+                "key": "3",
+                "text": "Kolkata"
+            },
+            {
+                "key": "4",
+                "text": "Delhi"
+            },
+            {
+                "key": "5",
+                "text": "Gujarat"
+            }
+        ]
+    },
+    {
+        "title": "Header 2",
+        "horizontal": false,
+        "data": [
+            {
+                "key": "1",
+                "text": "Punjab"
+            },
+            {
+                "key": "2",
+                "text": "Channai"
+            },
+
+            {
+                "key": "3",
+                "text": "Kerala"
+            },
+            {
+                "key": "4",
+                "text": "Jharkhad"
+            },
+            {
+                "key": "5",
+                "text": "Amaravathi"
+            }
+        ]
+    },
+    {
+        "title": "Header 3",
+        "horizontal": true,
+        "data": [
+            {
+                "key": "1",
+                "text": "Guntur"
+            },
+            {
+                "key": "2",
+                "text": "Vijayawada"
+            },
+
+            {
+                "key": "3",
+                "text": "Kadapa"
+            },
+            {
+                "key": "4",
+                "text": "Kurnool"
+            },
+            {
+                "key": "5",
+                "text": "Thirupathi"
+            },
+            {
+                "key": "6",
+                "text": "Vijag"
+            },
+            {
+                "key": "7",
+                "text": "Amalapuram"
+            }
+        ]
+    }
+]

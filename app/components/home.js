@@ -1,1031 +1,166 @@
-import React from 'react';
-import { View, SafeAreaView, FlatList, Text, Button, TouchableOpacity, TextInput } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { addMembers, removeMember } from '../redux/Actions/memberActions'
-import DropDownPicker from 'react-native-dropdown-picker';
-import AsyncStorage from '@react-native-community/async-storage';
-const patientMetaData = {
-    "resourceType": "Bundle",
-    "id": "b5374679-fea6-4b28-a0ff-8cf9889e0280",
-    "meta": {
-        "lastUpdated": "2021-02-11T05:00:04.230+00:00"
-    },
-    "type": "searchset",
-    "total": 7,
-    "link": [
-        {
-            "relation": "self",
-            "url": "https://demo.interopx.com/InteropXFHIR/fhir/Patient?_format=json&search-offset=0&_count=30"
-        }
-    ],
-    "entry": [
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "f47f7d79-f5a7-44af-af21-5f94034443ae",
-                "meta": {
-                    "versionId": "1.0",
-                    "lastUpdated": "2021-02-04T07:06:35.477+00:00"
-                },
-                "extension": [
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasourceId-extension",
-                        "valueString": "10001"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-extractionId-extension",
-                        "valueString": "10001"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasetId-extension",
-                        "valueString": "10001"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-interopxId-extension",
-                        "valueString": "IX-PATIENT-NiWbvu"
-                    }
-                ],
-                "identifier": [
-                    {
-                        "use": "official",
-                        "system": "urn:oid:2.16.840.1.113883.4.6",
-                        "value": "1"
-                    },
-                    {
-                        "use": "official",
-                        "system": "urn:oid:2.16.840.1.113883.4.1",
-                        "value": "123-111-5451"
-                    }
-                ],
-                "name": [
-                    {
-                        "use": "usual",
-                        "family": "Doe",
-                        "given": [
-                            "Jane",
-                            "Jinnie"
-                        ]
-                    }
-                ],
-                "telecom": [
-                    {
-                        "system": "phone",
-                        "value": "(816)234-6909",
-                        "use": "home"
-                    }
-                ],
-                "gender": "female",
-                "birthDate": "1978-04-15",
-                "address": [
-                    {
-                        "use": "home",
-                        "line": [
-                            "456 Dove Street"
-                        ],
-                        "city": "NewYork",
-                        "state": "NY",
-                        "postalCode": "10005",
-                        "country": "US"
-                    }
-                ],
-                "maritalStatus": {
-                    "coding": [
-                        {
-                            "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus",
-                            "code": "M",
-                            "display": "Married"
-                        }
-                    ]
-                },
-                "contact": [
-                    {
-                        "relationship": [
-                            {
-                                "coding": [
-                                    {
-                                        "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
-                                        "code": "O",
-                                        "display": "Other"
-                                    }
-                                ]
-                            }
-                        ],
-                        "name": {
-                            "family": "Doe",
-                            "given": [
-                                "Jammie"
-                            ]
-                        },
-                        "telecom": [
-                            {
-                                "system": "phone",
-                                "value": "(816)234-6909",
-                                "use": "home"
-                            }
-                        ],
-                        "address": {
-                            "use": "home",
-                            "line": [
-                                "456 Dove Street"
-                            ],
-                            "city": "NewYork",
-                            "state": "NY",
-                            "postalCode": "10005",
-                            "country": "US"
-                        }
-                    }
-                ],
-                "communication": [
-                    {
-                        "language": {
-                            "coding": [
-                                {
-                                    "system": "http://hl7.org/fhir/ValueSet/languages",
-                                    "code": "eng"
-                                }
-                            ]
-                        },
-                        "preferred": true
-                    }
-                ],
-                "managingOrganization": {
-                    "reference": "Organization/9b49676b-2057-45b4-8d65-bbfbd49b68dd",
-                    "display": "Care Clinic"
-                }
-            }
-        },
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "db675d25-b10f-4bf2-8269-71545c8725db",
-                "meta": {
-                    "versionId": "1.0",
-                    "lastUpdated": "2021-02-04T07:07:04.895+00:00"
-                },
-                "extension": [
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasourceId-extension",
-                        "valueString": "10001"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-extractionId-extension",
-                        "valueString": "10001"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasetId-extension",
-                        "valueString": "10001"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-interopxId-extension",
-                        "valueString": "IX-PATIENT-Kz1p3b"
-                    }
-                ],
-                "identifier": [
-                    {
-                        "use": "official",
-                        "system": "urn:oid:2.16.840.1.113883.4.6",
-                        "value": "1"
-                    },
-                    {
-                        "use": "official",
-                        "system": "urn:oid:2.16.840.1.113883.4.1",
-                        "value": "123-101-5285"
-                    }
-                ],
-                "name": [
-                    {
-                        "use": "usual",
-                        "family": "Cole",
-                        "given": [
-                            "Kenneth"
-                        ]
-                    }
-                ],
-                "telecom": [
-                    {
-                        "system": "phone",
-                        "value": "(816)276-6909",
-                        "use": "home"
-                    }
-                ],
-                "gender": "male",
-                "birthDate": "1973-02-16",
-                "address": [
-                    {
-                        "use": "home",
-                        "line": [
-                            "1357 Amber Drive"
-                        ],
-                        "city": "Beaverton",
-                        "state": "OR",
-                        "postalCode": "97006",
-                        "country": "US"
-                    }
-                ],
-                "maritalStatus": {
-                    "coding": [
-                        {
-                            "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus",
-                            "code": "M",
-                            "display": "Married"
-                        }
-                    ]
-                },
-                "contact": [
-                    {
-                        "relationship": [
-                            {
-                                "coding": [
-                                    {
-                                        "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
-                                        "code": "O",
-                                        "display": "Other"
-                                    }
-                                ]
-                            }
-                        ],
-                        "name": {
-                            "family": "Jones",
-                            "given": [
-                                "Ralph"
-                            ]
-                        },
-                        "telecom": [
-                            {
-                                "system": "phone",
-                                "value": "(816)276-6909",
-                                "use": "home"
-                            }
-                        ],
-                        "address": {
-                            "use": "home",
-                            "line": [
-                                "1357 Amber Drive"
-                            ],
-                            "city": "Olympia",
-                            "state": "WC",
-                            "postalCode": "97006",
-                            "country": "US"
-                        }
-                    }
-                ],
-                "communication": [
-                    {
-                        "language": {
-                            "coding": [
-                                {
-                                    "system": "http://hl7.org/fhir/ValueSet/languages",
-                                    "code": "eng"
-                                }
-                            ]
-                        },
-                        "preferred": true
-                    }
-                ],
-                "managingOrganization": {
-                    "reference": "Organization/2cb7e4e0-7157-4c98-8a50-9e67cd1d05b4",
-                    "display": "Get Well Clinic"
-                }
-            }
-        },
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "518a7b38-c84d-42dd-8f07-1595f9e67c50",
-                "meta": {
-                    "versionId": "2.0",
-                    "lastUpdated": "2020-11-03T15:47:18.560+00:00",
-                    "source": "#t3B6ILxsnAgTtQzs"
-                },
-                "text": {
-                    "status": "generated",
-                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Nuclear, Ned. SSN:\n 444113456</div>"
-                },
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
-                        "extension": [
-                            {
-                                "url": "ombCategory",
-                                "valueCoding": {
-                                    "system": "urn:oid:2.16.840.1.113883.6.238",
-                                    "code": "1002-5",
-                                    "display": "American Indian or Alaska Native"
-                                }
-                            },
-                            {
-                                "url": "text",
-                                "valueString": "Alaska Native"
-                            }
-                        ]
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasourceId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-extractionId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasetId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-interopxId-extension",
-                        "valueString": "IX-PATIENT-XMS73L"
-                    }
-                ],
-                "identifier": [
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "code": "MR"
-                                }
-                            ]
-                        },
-                        "system": "http://hl7.org/fhir/sid/us-ssn",
-                        "value": "444113456"
-                    },
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "code": "ID",
-                                    "display": "IDENTIFIER"
-                                }
-                            ]
-                        },
-                        "system": "https://interopx:openemr/datasource",
-                        "value": "1629018"
-                    }
-                ],
-                "active": true,
-                "name": [
-                    {
-                        "use": "official",
-                        "family": "Nuclear",
-                        "given": [
-                            "Ned"
-                        ]
-                    }
-                ],
-                "telecom": [
-                    {
-                        "system": "phone",
-                        "value": "555-555-5001",
-                        "use": "work"
-                    }
-                ],
-                "gender": "male",
-                "birthDate": "1981-09-23",
-                "address": [
-                    {
-                        "use": "home",
-                        "line": [
-                            "6666 Home Street"
-                        ]
-                    }
-                ],
-                "managingOrganization": {
-                    "reference": "Organization/9e2477a0-3cd6-4bdc-b55f-f4530b7642c4"
-                }
-            }
-        },
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "effd5b22-edff-4152-9a19-dd3edf311bf0",
-                "meta": {
-                    "versionId": "6.0",
-                    "lastUpdated": "2020-11-03T16:02:41.651+00:00",
-                    "source": "#V1svn4pn09XB184C"
-                },
-                "text": {
-                    "status": "generated",
-                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Everywoman, Eve. SSN:\n 444222222</div>"
-                },
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
-                        "extension": [
-                            {
-                                "url": "ombCategory",
-                                "valueCoding": {
-                                    "system": "urn:oid:2.16.840.1.113883.6.238",
-                                    "code": "2106-3",
-                                    "display": "White"
-                                }
-                            },
-                            {
-                                "url": "text",
-                                "valueString": "White"
-                            }
-                        ]
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasourceId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-extractionId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasetId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-interopxId-extension",
-                        "valueString": "IX-PATIENT-bJtTNA"
-                    }
-                ],
-                "identifier": [
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "code": "MR"
-                                }
-                            ]
-                        },
-                        "system": "http://hl7.org/fhir/sid/us-ssn",
-                        "value": "444222222"
-                    },
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "code": "ID",
-                                    "display": "IDENTIFIER"
-                                }
-                            ]
-                        },
-                        "system": "https://interopx:openemr/datasource",
-                        "value": "1629017"
-                    }
-                ],
-                "active": true,
-                "name": [
-                    {
-                        "use": "official",
-                        "family": "Clinton",
-                        "given": [
-                            "Eve"
-                        ]
-                    }
-                ],
-                "telecom": [
-                    {
-                        "system": "phone",
-                        "value": "555-555-2003",
-                        "use": "work"
-                    }
-                ],
-                "gender": "female",
-                "birthDate": "1974-05-31",
-                "address": [
-                    {
-                        "use": "home",
-                        "line": [
-                            "2222 Home Street"
-                        ]
-                    }
-                ],
-                "managingOrganization": {
-                    "reference": "Organization/254422af-9ae1-4153-9dd5-9613b9eca344"
-                },
-                "link": [
-                    {
-                        "other": {
-                            "reference": "Patient/942e4440-18af-410e-9108-8375fa74f108"
-                        },
-                        "type": "seealso"
-                    }
-                ]
-            }
-        },
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "f402d0dd-685e-4c7a-871c-0119e1a3fded",
-                "meta": {
-                    "versionId": "2.0",
-                    "lastUpdated": "2020-11-03T15:44:26.273+00:00",
-                    "source": "#NpDg9Vr4N80j56Qq"
-                },
-                "text": {
-                    "status": "generated",
-                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Nuclear, Nelda. SSN:\n 444112345</div>"
-                },
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
-                        "extension": [
-                            {
-                                "url": "ombCategory",
-                                "valueCoding": {
-                                    "system": "urn:oid:2.16.840.1.113883.6.238",
-                                    "code": "1002-5",
-                                    "display": "American Indian or Alaska Native"
-                                }
-                            },
-                            {
-                                "url": "text",
-                                "valueString": "American Indian"
-                            }
-                        ]
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasourceId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-extractionId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasetId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-interopxId-extension",
-                        "valueString": "IX-PATIENT-wgl34d"
-                    }
-                ],
-                "identifier": [
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "code": "MR"
-                                }
-                            ]
-                        },
-                        "system": "http://hl7.org/fhir/sid/us-ssn",
-                        "value": "444112345"
-                    },
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "code": "ID",
-                                    "display": "IDENTIFIER"
-                                }
-                            ]
-                        },
-                        "system": "https://interopx:openemr/datasource",
-                        "value": "1629020"
-                    }
-                ],
-                "active": true,
-                "name": [
-                    {
-                        "use": "official",
-                        "family": "Nuclear",
-                        "given": [
-                            "Nelda"
-                        ]
-                    }
-                ],
-                "telecom": [
-                    {
-                        "system": "phone",
-                        "value": "555-555-5001",
-                        "use": "work"
-                    }
-                ],
-                "gender": "female",
-                "birthDate": "1980-11-10",
-                "address": [
-                    {
-                        "use": "home",
-                        "line": [
-                            "6666 Home Street"
-                        ]
-                    }
-                ],
-                "managingOrganization": {
-                    "reference": "Organization/8c084b6d-1f2d-4018-ba0c-107c88270ee3"
-                }
-            }
-        },
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "942e4440-18af-410e-9108-8375fa74f108",
-                "meta": {
-                    "versionId": "6.0",
-                    "lastUpdated": "2020-11-03T16:03:57.232+00:00",
-                    "source": "#qQKDCGGE8gtr0SuI",
-                    "tag": [
-                        {
-                            "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
-                            "code": "HTEST",
-                            "display": "More health data"
-                        }
-                    ]
-                },
-                "text": {
-                    "status": "generated",
-                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: mom</p><p><b>meta</b>: </p><p><b>identifier</b>: Social Security number = 444222222</p><p><b>active</b>: true</p><p><b>name</b>: Eve Everywoman (OFFICIAL)</p><p><b>telecom</b>: ph: 555-555-2003(WORK)</p><p><b>gender</b>: female</p><p><b>birthDate</b>: 31/05/1973</p><p><b>address</b>: 2222 Home Street (HOME)</p><p><b>managingOrganization</b>: <a>Organization/hl7</a></p><h3>Links</h3><table><tr><td>-</td><td><b>Other</b></td><td><b>Type</b></td></tr><tr><td>*</td><td><a>RelatedPerson/newborn-mom</a></td><td>seealso</td></tr></table></div>"
-                },
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
-                        "extension": [
-                            {
-                                "url": "ombCategory",
-                                "valueCoding": {
-                                    "system": "urn:oid:2.16.840.1.113883.6.238",
-                                    "code": "2106-3",
-                                    "display": "White"
-                                }
-                            },
-                            {
-                                "url": "text",
-                                "valueString": "White"
-                            }
-                        ]
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasourceId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-extractionId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasetId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-interopxId-extension",
-                        "valueString": "IX-PATIENT-bJtTNA"
-                    }
-                ],
-                "identifier": [
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "code": "MR"
-                                }
-                            ]
-                        },
-                        "system": "http://hl7.org/fhir/sid/us-ssn",
-                        "value": "444222222"
-                    },
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "code": "ID",
-                                    "display": "IDENTIFIER"
-                                }
-                            ]
-                        },
-                        "system": "https://interopx:openemr/datasource",
-                        "value": "1629016"
-                    }
-                ],
-                "active": true,
-                "name": [
-                    {
-                        "use": "official",
-                        "family": "Clinton",
-                        "given": [
-                            "Eve"
-                        ]
-                    }
-                ],
-                "telecom": [
-                    {
-                        "system": "phone",
-                        "value": "555-555-2003",
-                        "use": "work"
-                    }
-                ],
-                "gender": "female",
-                "birthDate": "1974-05-31",
-                "address": [
-                    {
-                        "use": "home",
-                        "line": [
-                            "2222 Home Street"
-                        ]
-                    }
-                ],
-                "managingOrganization": {
-                    "reference": "Organization/8c084b6d-1f2d-4018-ba0c-107c88270ee3"
-                },
-                "link": [
-                    {
-                        "other": {
-                            "reference": "Patient/effd5b22-edff-4152-9a19-dd3edf311bf0"
-                        },
-                        "type": "seealso"
-                    }
-                ]
-            }
-        },
-        {
-            "resource": {
-                "resourceType": "Patient",
-                "id": "327994fb-25da-451b-bd14-628dee412823",
-                "meta": {
-                    "versionId": "3.0",
-                    "lastUpdated": "2020-11-03T15:46:57.808+00:00",
-                    "source": "#HzbXMtLOF7zPwFB6"
-                },
-                "text": {
-                    "status": "generated",
-                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Mum, Martha. SSN:\n 444666666</div>"
-                },
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
-                        "extension": [
-                            {
-                                "url": "ombCategory",
-                                "valueCoding": {
-                                    "system": "urn:oid:2.16.840.1.113883.6.238",
-                                    "code": "2028-9",
-                                    "display": "Asian"
-                                }
-                            },
-                            {
-                                "url": "text",
-                                "valueString": "Asian"
-                            }
-                        ]
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasourceId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-extractionId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-datasetId-extension",
-                        "valueString": "10002"
-                    },
-                    {
-                        "url": "http://interopx.com/fhir/StructureDefinition-interopxId-extension",
-                        "valueString": "IX-PATIENT-qwUN1X"
-                    }
-                ],
-                "identifier": [
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "code": "MR"
-                                }
-                            ]
-                        },
-                        "system": "http://hl7.org/fhir/sid/us-ssn",
-                        "value": "444666666"
-                    },
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                    "code": "ID",
-                                    "display": "IDENTIFIER"
-                                }
-                            ]
-                        },
-                        "system": "https://interopx:openemr/datasource",
-                        "value": "1629022"
-                    }
-                ],
-                "active": true,
-                "name": [
-                    {
-                        "use": "official",
-                        "family": "Jordan",
-                        "given": [
-                            "Martha"
-                        ]
-                    }
-                ],
-                "telecom": [
-                    {
-                        "system": "phone",
-                        "value": "555-555-2006",
-                        "use": "work"
-                    }
-                ],
-                "gender": "female",
-                "birthDate": "1970-12-31",
-                "address": [
-                    {
-                        "use": "home",
-                        "line": [
-                            "4444 Home Street"
-                        ]
-                    }
-                ],
-                "managingOrganization": {
-                    "reference": "Organization/254422af-9ae1-4153-9dd5-9613b9eca344"
-                }
-            }
-        }
-    ]
-}
-class HomeScreen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            filterArray: [
-                { label: 'AsendingBy Name', value: 'AsendingBy Name' },
-                { label: 'DesendingBy Name', value: 'DesendingBy Name' },
-                { label: 'AsendingBy Age', value: 'AsendingBy Age' },
-                { label: 'DesendingBy Age', value: 'DesendingBy Age' }
-            ],
-            filter: '',
-        }
-        this.controller;
-    }
 
-    async componentDidMount() {
-        const data = await this.getData();
-        if (data) {
-            this.props.addMembers(data);
+import React, { useState, useEffect } from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    SectionList,
+    SafeAreaView,
+    FlatList,
+    StatusBar,
+    Dimensions,
+    Button,
+    TextInput,
+    Alert
+} from 'react-native';
+const listJson = require('../constants/listData.json');
+const NAVBAR_HEIGHT = 100;
+const STATUS_BAR_HEIGHT = Platform.select({ ios: 20, android: 24 });
+
+const ListItem = ({ item }) => {
+    return (
+        <View style={styles.item}>
+            <Text style={styles.itemText}>{item.text}</Text>
+        </View>
+    );
+};
+
+export default HomeScreen = () => {
+    const sortedColumns = listJson.filter((item) => {
+        if (!item.horizontal) {
+            return item.data.sort((a, b) => a.text.localeCompare(b.text))
+        } else {
+            return item
+        }
+    })
+    const [data, setData] = useState(sortedColumns);
+    const [text, setText] = useState('');
+    const [filteredArray, setFilteredArray] = useState([]);
+    const [isFilter, setIsFilter] = useState(false);
+
+    const onChangeText = (filterText) => {
+        setText(filterText)
+        let updateFilteredData = [...data]
+        if (filterText.length >= 2) {
+            setIsFilter(true)
+            const filteredData = data.filter((item, index) => {
+                if (!item.horizontal) {
+                    const subFilter = item.data.filter(dataItem => {
+                        return dataItem.text.toLocaleLowerCase().match(filterText.toLowerCase())
+                    })
+                    updateFilteredData[index] = { ...item, data: subFilter }
+                    setFilteredArray(updateFilteredData)
+                }
+            })
+        } else {
+            setIsFilter(false);
+            setFilteredArray([])
         }
     }
 
-    sortByNameDesendingOrder = (type) => {
-        switch (type) {
-            case 'AsendingBy Name':
-                const asendingByName = this.props.event.members.sort((m1, m2) => m1.name.localeCompare(m2.name));
-                this.props.addMembers(asendingByName);
-                break;
-            case 'DesendingBy Name':
-                const desendingByName = this.props.event.members.sort((m1, m2) => m2.name.localeCompare(m1.name));
-                this.props.addMembers(desendingByName);
-                break;
-            case 'AsendingBy Age':
-                const asendingByAge = this.props.event.members.sort((m1, m2) => Number(m1.age) - Number(m2.age));
-                this.props.addMembers(asendingByAge);
-                break;
-            case 'DesendingBy Age':
-                const desendingByAge = this.props.event.members.sort((m1, m2) => Number(m2.age) - Number(m1.age));
-                this.props.addMembers(desendingByAge);
-                break;
-            default:
-                break;
-        }
+    const closeFilter = () => {
+        setText('');
+        setIsFilter(false);
+        setFilteredArray([])
     }
 
-    deleteItemById = async id => {
-        const filteredData = this.props.event.members.filter(item => item.id !== id);
-        this.props.removeMember(filteredData);
-        await this.updateData(id);
-    }
-
-    renderItem = ({ item }) => {
-        const { name, email, company, age, phone } = item;
-        return (
-            <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('AddEvent')}
-                onLongPress={() => this.deleteItemById(item.id)}
-                style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: 20,
-                    backgroundColor: '#f9c2ff',
-                    marginVertical: 8,
-                    marginHorizontal: 16
-                }}>
-                <Text>{`Name: ${name}`}</Text>
-                <Text>{`comapny: ${company}`}</Text>
-                <Text>{`email: ${email}`}</Text>
-                <Text>{`phone: ${phone}`}</Text>
-                <Text>{`age: ${age}`}</Text>
-            </TouchableOpacity>
-        );
-    };
-
-    updateData = async (id) => {
-        try {
-            let jsonData = await this.getData();
-            if (jsonData) {
-                const index = jsonData.findIndex(item => item.id === id);
-                if (index > -1) {
-                    jsonData.splice(index, 1);
-                    await AsyncStorage.setItem('@members', JSON.stringify(jsonData));
-                }
-            }
-
-        } catch (error) {
-            // saving error
-        }
-    }
-
-    getData = async () => {
-        try {
-            const jsonValue = await AsyncStorage.getItem('@members')
-            return jsonValue != null ? JSON.parse(jsonValue) : null;
-        } catch (err) {
-            // error reading value
-        }
-    }
-
-
-    render() {
-        const { entry } = patientMetaData
-        console.log('patient data', entry)
-        return (
+    return (
+        <View style={styles.container}>
+            <StatusBar style="light" />
             <SafeAreaView style={{ flex: 1 }}>
-                <View style={{ height: 50, marginLeft: 10, marginRight: 10, borderColor: 'gary', borderRadius: 5, borderWidth: 1, justifyContent: 'center' }}>
-                    <TextInput style={{ marginLeft: 5 }}
-                        placeholder='Name'
-                    />
-                </View>
-                <View style={{ height: 220, marginRight: 10, marginLeft: 10, borderColor: 'gary', borderRadius: 5, borderWidth: 1, marginTop: 2 }}>
-                    <Text style={{ height: 20, color: 'black', marginTop: 10, marginLeft: 10 }}>Birth Date</Text>
-                    <TextInput style={{ borderColor: 'gary', borderRadius: 5, borderWidth: 1, height: 40, marginLeft: 10, marginRight: 10 }}
-                        placeholder='choose date'
-                    />
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 70, marginTop: 20 }}>
-                        <View style={{ height: 50, flex: 0.5 }}>
-                            <Text style={{ marginLeft: 10, marginBottom: 2 }}>Age</Text>
-                            <TextInput style={{ borderColor: 'gary', borderRadius: 5, borderWidth: 1, height: 40, marginLeft: 10, marginRight: 10 }}
-                                placeholder='age'
-                            />
+                <SectionList
+                    contentContainerStyle={{ paddingHorizontal: 10, marginTop: 40 }}
+                    stickySectionHeadersEnabled={false}
+                    sections={!isFilter ? data : filteredArray}
+                    stickySectionHeadersEnabled={true}
+                    renderSectionHeader={({ section }) => (
+                        <View>
+                            <Text style={styles.sectionHeader}>{section.title}</Text>
+                            {section.horizontal ? (
+                                <FlatList
+                                    horizontal
+                                    data={section.data}
+                                    renderItem={({ item }) => <ListItem item={item} />}
+                                    showsHorizontalScrollIndicator={false}
+                                />
+                            ) : null}
                         </View>
-                        <View style={{ height: 50, flex: 0.5 }}>
-                            <Text style={{ marginLeft: 10, marginBottom: 2 }}>Gender</Text>
-                            <TextInput style={{ borderColor: 'gary', borderRadius: 5, borderWidth: 1, height: 40, marginLeft: 10, marginRight: 10 }}
-                                placeholder='gender'
-                            />
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-                        <Button title='Clear search' />
-                        <Button title='Search' />
-                    </View>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 30, marginRight: 20, marginLeft: 20, marginTop: 10 }}>
-                    <Text style={{ fontWeight: 'bold' }}>Name</Text>
-                    <Text style={{ fontWeight: 'bold' }}>Age</Text>
-                    <Text style={{ fontWeight: 'bold', marginRight: 10 }}>Gender</Text>
-                </View>
-                <FlatList
-                    data={entry}
-                    renderItem={(item) => {
-                        return (
-                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <TouchableOpacity style={{
-                                    backgroundColor: '#f9c2ff',
-                                    padding: 20,
-                                    marginVertical: 8,
-                                    marginHorizontal: 16,
-                                    width: '90%',
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between'
-                                }} onPress={() => this.props.navigation.navigate('UserDetailes', { userDetailes: item.item.resource })}>
-                                    <Text>{item.item.resource.name[0].family}</Text>
-                                    <Text>{item.item.resource.birthDate}</Text>
-                                    <Text>{item.item.resource.gender}</Text>
-
-                                </TouchableOpacity>
-
-                            </View>
-                        )
-
+                    )}
+                    renderItem={({ item, section }) => {
+                        if (section.horizontal) {
+                            return null;
+                        }
+                        return <ListItem item={item} />;
                     }}
-                    keyExtractor={(item, index) => index.toString()}
                 />
+                <View style={styles.navbar}>
+                    <View style={styles.headerView}>
+                        <TextInput style={styles.input}
+                            placeholder='filter'
+                            value={text}
+                            onChangeText={text => onChangeText(text)}
+                        />
+                        <Button
+                            title="Close"
+                            onPress={() => closeFilter()}
+                        />
+                    </View>
+                </View>
             </SafeAreaView>
-        )
+
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    sectionHeader: {
+        fontWeight: '800',
+        fontSize: 18,
+        color: 'black',
+        marginTop: 20,
+        marginBottom: 5,
+    },
+    item: {
+        margin: 10,
+        flex: 1,
+        width: '90%',
+        height: 100,
+        backgroundColor: 'yellow',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    itemText: {
+        color: 'black',
+        marginTop: 5,
+
+    },
+    navbar: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderBottomColor: '#dedede',
+        borderBottomWidth: 1,
+        height: NAVBAR_HEIGHT,
+        justifyContent: 'center',
+        paddingTop: STATUS_BAR_HEIGHT,
+    },
+    headerView: {
+        width: '80%',
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 2,
+        borderRadius: 5,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    input: {
+        marginLeft: 5,
+        width: '70%'
     }
-}
-
-const mapStateToProps = (state) => ({
-    event: state.members,
 });
-
-const mapDispatchToProps = (dispatch) => ({
-    addMembers: bindActionCreators(addMembers, dispatch),
-    removeMember: bindActionCreators(removeMember, dispatch)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
